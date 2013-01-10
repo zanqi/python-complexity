@@ -5,7 +5,7 @@ Python is a high-level programming language, with many powerful primitives. Anal
 
 For example, in Python, you can write:  
 `L = L1 + L2`  
-where L, L1, and L2 are lists; the given statement computes L as the concatenation of the two input lists L1 and L2. The running time of this statement will depend on the lengths of lists L1 and L2. (The running time is more-or-less proportional to the sum of those two lengths.) In comparison:
+where L, L1, and L2 are lists; the given statement computes L as the concatenation of the two input lists L1 and L2. The running time of this statement will depend on the lengths of lists L1 and L2. (The running time is more-or-less proportional to the sum of those two lengths.) In comparison:  
 `L = L1.extend(L2)`  
 its runing time only depend on the length of L2. If L1 is much larger and can be modified, this is more efficient.
 
@@ -291,3 +291,4 @@ Cost of Python Set Operations
 </td><td> <tt> n &lt;= 64000 </tt>
 </td><td> 36% rms error
 </td></tr></tbody></table>
+Set is implemented as hash, so checking if element is in a set is constant time.

@@ -89,7 +89,7 @@ Cost of Python Integer Operations
 </td><td> <tt> n &lt;= 512000 </tt>
 </td><td> 10% rms error
 </td></tr></table>
-It is perhaps curious that multiplication is implemented using Karatsuba's algorithm, giving an Θ(nlg 3) running time, while division uses an Θ(n2) algorithm.
+It is perhaps curious that multiplication is implemented using Karatsuba's algorithm, giving an Θ(n^lg3) running time, while division uses an Θ(n^2) algorithm.
 
 Cost of Python String Operations
 ----------------------------------------------

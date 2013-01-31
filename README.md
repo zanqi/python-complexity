@@ -165,10 +165,10 @@ Cost of Python List Operations
 </td></tr>
 <tr>
 <td> <b>Concatenate</b>
-</td><td> <tt>L+L</tt>
-</td><td> <tt>22 * (n/1000) microseconds</tt>
-</td><td> <tt> n &lt;= 64000 </tt>
-</td><td> 3% rms error
+</td><td> <tt>L+M</tt>
+</td><td> <tt>7 * (n+m/1000) microseconds</tt>
+</td><td> <tt> n,m &lt;= 64000 </tt>
+</td><td> 17% rms error
 </td></tr>
 <tr>
 <td> <b>Extend</b>

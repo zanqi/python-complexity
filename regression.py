@@ -414,16 +414,16 @@ def test_list():
 
     print
     print "Test List-5: concatenating two lists of length n"
-    spec_string = "1000<=n<=100000"
+    spec_string = "1000<=n<=100000;1000<=m<=100000"
     growth_factor = 2
     print "Spec_string: ",spec_string, "by factors of", growth_factor
     var_list, input_list = make_input_list(spec_string,growth_factor)
     # f_list = ("n","1")
-    f_list = ("n",)
+    f_list = ("n","m")
     run_times = []
-    trials = 2000
+    trials = 200
     for D in input_list:
-        t = timeit.Timer("L+L","L=[0]*%(n)s"%D)
+        t = timeit.Timer("L+M","L=[0]*%(n)s;M=[0]*%(m)s"%D)
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,f_list)
 

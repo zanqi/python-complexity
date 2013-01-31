@@ -131,7 +131,8 @@ Cost of Python List Operations
 ----------------------------------------------
 <table>
 <caption>
-<tt>L and M are length-n lists</tt><br>
+<tt>L is length-n list</tt><br>
+<tt>M is length-m lists</tt><br>
 <tt>P has length n/2</tt>
 </caption>
 <tbody><tr>
@@ -164,10 +165,17 @@ Cost of Python List Operations
 </td></tr>
 <tr>
 <td> <b>Concatenate</b>
-</td><td> <tt>L+M</tt>
+</td><td> <tt>L+L</tt>
 </td><td> <tt>22 * (n/1000) microseconds</tt>
 </td><td> <tt> n &lt;= 64000 </tt>
 </td><td> 3% rms error
+</td></tr>
+<tr>
+<td> <b>Extend</b>
+</td><td> <tt>L.extend(M)</tt>
+</td><td> <tt>65 * (m/1000) microseconds</tt>
+</td><td> <tt> m &lt;= 64000 </tt>
+</td><td> 11% rms error
 </td></tr>
 <tr>
 <td> <b>Slice extraction</b>

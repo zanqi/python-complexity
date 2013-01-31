@@ -428,6 +428,21 @@ def test_list():
     fit(var_list,input_list,run_times,f_list)
 
     print
+    print "Test List-5b: extending a length m list"
+    spec_string = "1000<=n<=100000;1000<=m<=100000"
+    growth_factor = 2
+    print "Spec_string: ",spec_string, "by factors of", growth_factor
+    var_list, input_list = make_input_list(spec_string,growth_factor)
+    # f_list = ("n","1")
+    f_list = ("m")
+    run_times = []
+    trials = 200
+    for D in input_list:
+        t = timeit.Timer("L.extend(M)","L=[0]*%(n)s;M=[0]*%(m)s"%D)
+        run_times.append(t.timeit(trials)*1e6/float(trials))
+    fit(var_list,input_list,run_times,f_list)
+
+    print
     print "Test List-6: extracting a slice of length n/2"
     spec_string = "1000<=n<=100000"
     growth_factor = 2

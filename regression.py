@@ -597,97 +597,46 @@ def test_dict():
     fit(var_list,input_list,run_times,f_list)
 
 def test_set():
-    print
-    print "Test Set-1: create an empty set"
-    spec_string = "1<=n<=10"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x = set()")
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Set-1: create an empty set", 
+        "1<=n<=10",
+        "",
+        "S = set()",
+        ("1",),
+        1000)
 
-    print
-    print "Test Set-2: adding to a set of length n"
-    spec_string = "10000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("S.add(0)","S=set(range(%(n)s))"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Set-2: adding to a set of length n", 
+        "10000<=n<=1000000",
+        "S=set(range(%(n)s))",
+        "S.add(0)",
+        ("1",))
 
-    print
-    print "Test Set-3: Pop"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("S.pop()","S=set(range(%(n)s))"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Set-3: pop", 
+        "1000<=n<=100000",
+        "S=set(range(%(n)s))",
+        "S.pop()",
+        ("1",))
 
-    print
-    print "Test Set-4: intersect"
-    spec_string = "1000<=n<=100000;1000<=m<=100000;min(n,m)<=k<=min(n,m)"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("k",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("S & S2","S=set(range(%(n)s));S2=set(range(%(m)s))"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Set-4: intersect", 
+        "1000<=n<=100000;1000<=m<=100000;min(n,m)<=k<=min(n,m)",
+        "S=set(range(%(n)s));S2=set(range(%(m)s))",
+        "S & S2",
+        ("k",))
 
     test("Test Set-5: union", 
         "1000<=n<=100000;1000<=m<=100000",
         "S=set(range(%(n)s));S2=set(range(%(n)s,%(n)s+%(m)s))",
         "S | S2",
-        "n+m")
-        
-#    print
-#    print "Test Set-5: union"
-#    spec_string = "1000<=n<=100000;1000<=m<=100000"
-#    growth_factor = 2
-#    print "Spec_string: ",spec_string, "by factors of", growth_factor
-#    var_list, input_list = make_input_list(spec_string,growth_factor)
-#    # f_list = ("n","1")
-#    f_list = ("n","m")
-#    run_times = []
-#    trials = 200
-#    for D in input_list:
-#        t = timeit.Timer("S | S2","S=set(range(%(n)s));S2=set(range(%(n)s,%(n)s+%(m)s))"%D)
-#        run_times.append(t.timeit(trials)*1e6/float(trials))
-#    fit(var_list,input_list,run_times,f_list)
+        ("n","m"))
 
-def test(name, spec_string, features, method, setup):
+def test(name, spec_string, setup, method, features, trials = 200):
     print
     print name
     growth_factor = 2
     print "Spec_string: ",spec_string, "by factors of", growth_factor
     var_list, input_list = make_input_list(spec_string,growth_factor)
     run_times = []
-    trials = 200
     for D in input_list:
-        t = timeit.Timer(method, setup"%D)
+        t = timeit.Timer(method, setup % D)
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,features)
 

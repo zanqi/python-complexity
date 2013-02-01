@@ -128,7 +128,7 @@ def fit2(A,b):
 
 def test_misc():
     print
-    print "Test Misc-1 -- running time should be n+2*m+7+3*n*lg(n)+17*n*m"
+    print "Test Misc-1: running time should be n+2*m+7+3*n*lg(n)+17*n*m"
     spec_string = "1<=n<=100000;1<=m<=100000"
     growth_factor = 10
     print "Spec_string: ",spec_string,"by factors of",growth_factor
@@ -137,51 +137,27 @@ def test_misc():
     f_list = ("(n*m)","n**2","n*lg(n)","n","m","1")
     fit(var_list,input_list,run_times,f_list)
 
-    print
-    print "Test Misc-2: pass"
-    spec_string = "10000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("pass")
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Misc-2: pass", 
+        "10000<=n<=1000000",
+        "",
+        "pass",
+        ("1",),
+        1000)
 
 def test_number():
-    print
-    print "Test Number-1 -- time to compute int('1'*n)"
-    spec_string = "1000<=n<=10000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n","1")
-    f_list = ("n**2",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("int(x)","import string;x='1'*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-1: time to compute int('1'*n)", 
+        "1000<=n<=10000",
+        "import string;x='1'*%(n)s",
+        "int(x)",
+        ("n**2",),
+        1000)
 
-    print
-    print "Test Number-2 -- time to compute repr(2**n)"
-    spec_string = "1000<=n<=10000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n","1")
-    f_list = ("n**2",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("repr(x)","x=2**%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-2: time to compute repr(2**n)", 
+        "1000<=n<=10000",
+        "x=2**%(n)s",
+        "repr(x)",
+        ("n**2",),
+        1000)
 
     print
     print "Test Number-3 -- time to convert (2**n) to hex"
@@ -198,51 +174,26 @@ def test_number():
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,f_list)
 
-    print
-    print "Test Number-4 -- time to add 2**n to itself"
-    spec_string = "1000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list,input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n*lg(n)","n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 10000
-    for D in input_list:
-        t = timeit.Timer("x+x","x=2**%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-4: time to add 2**n to itself", 
+        "1000<=n<=1000000",
+        "x=2**%(n)s",
+        "x+x",
+        ("n",),
+        10000)
 
-    
-    print
-    print "Test Number-5 -- time to multiply (2**n/3) by itself"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list,input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n*lg(n)","n","1")
-    f_list = ("n**1.585",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x*x","x=(2**%(n)s)/3"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-5: time to multiply (2**n/3) by itself", 
+        "1000<=n<=100000",
+        "x=(2**%(n)s)/3",
+        "x*x",
+        ("n**1.585",),
+        1000)
 
-    print
-    print "Test Number-6 -- time to divide (2**(2n) by (2**n))"
-    spec_string = "1000<=n<=50000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list,input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n*lg(n)","n","1")
-    f_list = ("n**2",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("w/x","w=(2**(2*%(n)s));x=(2**(%(n)s))"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-6: time to divide (2**(2n) by (2**n))", 
+        "1000<=n<=50000",
+        "w=(2**(2*%(n)s));x=(2**(%(n)s))",
+        "w/x",
+        ("n**2",),
+        1000)
 
     print
     print "Test Number-7 -- time to compute remainder of (2**(2n) by (2**n))"
@@ -259,342 +210,159 @@ def test_number():
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,f_list)
 
-    print
-    print "Test Number-8 -- time to compute pow(x,y,z)"
-    spec_string = "1000<=n<=5000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list,input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n*lg(n)","n","1")
-    f_list = ("n**3",)
-    run_times = []
-    trials = 10
-    for D in input_list:
-        t = timeit.Timer("pow(x,y,z)","z=(2**%(n)s)+3;x=y=(2**%(n)s)+1"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-8: time to compute pow(x,y,z)", 
+        "1000<=n<=5000",
+        "z=(2**%(n)s)+3;x=y=(2**%(n)s)+1",
+        "pow(x,y,z)",
+        ("n**3",),
+        10)
 
-    print
-    print "Test Number-9 -- time to compute 2**n"
-    spec_string = "1000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string,"by factors of",growth_factor
-    var_list,input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n**2","n*lg(n)","n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 10000
-    for D in input_list:
-        t = timeit.Timer("2**%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Number-9: time to compute 2**n", 
+        "1000<=n<=1000000",
+        "",
+        "2**%(n)s",
+        ("1",),
+        10000)
 
 def test_string():
-    print
-    print "Test String-1: extract a byte from a string"
-    spec_string = "1000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("s[500]","s='0'*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test String-1: extract a byte from a string", 
+        "1000<=n<=1000000",
+        "s='0'*%(n)s",
+        "s[500]",
+        ("1",),
+        1000)
 
-    print
-    print "Test String-2: concatenate two string of length n"
-    spec_string = "1000<=n<=500000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("s+t","s=t='0'*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test String-2: concatenate two string of length n", 
+        "1000<=n<=500000",
+        "s=t='0'*%(n)s",
+        "s+t",
+        ("n",),
+        1000)
 
-    print
-    print "Test String-3: extract a string of length n/2"
-    spec_string = "1000<=n<=500000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("s[0:%(n)s/2]"%D,"s='0'*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test String-3: extract a string of length n/2", 
+        "1000<=n<=500000",
+        "s='0'*%(n)s",
+        "s[0:%(n)s/2]",
+        ("n",),
+        1000)
 
-    print
-    print "Test String-4: translate a string of length n"
-    spec_string = "1000<=n<=500000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("string.translate(s,T)"%D,
-                         "s='0'*%(n)s;import string;T=string.maketrans('1','2')"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test String-4: translate a string of length n", 
+        "1000<=n<=500000",
+        "s='0'*%(n)s;import string;T=string.maketrans('1','2')",
+        "string.translate(s,T)",
+        ("n",),
+        1000)
 
 def test_list():
-    print
-    print "Test List-1: create an empty list"
-    spec_string = "1<=n<=10"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x = list()")
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-1: create an empty list", 
+        "1<=n<=10",
+        "",
+        "x = list()",
+        ("1",),
+        1000)
 
-    print
-    print "Test List-2: list (array) lookup"
-    spec_string = "10000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x=L[5]","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-2: list (array) lookup", 
+        "10000<=n<=1000000",
+        "L=[0]*%(n)s",
+        "x=L[5]",
+        ("1",),
+        1000)
 
-    print
-    print "Test List-3: appending to a list of length n"
-    spec_string = "10000<=n<=1000000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1")
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("L.append(0)","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-3: appending to a list of length n", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L.append(0)",
+        ("1",),
+        1000)
 
-    print
-    print "Test List-4: Pop"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("L.pop()","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-4: Pop", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L.pop()",
+        ("1",))
 
-    print
-    print "Test List-5: concatenating two lists of length n"
-    spec_string = "1000<=n<=100000;1000<=m<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n","m")
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("L+M","L=[0]*%(n)s;M=[0]*%(m)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-5: concatenating two lists", 
+        "1000<=n<=100000;1000<=m<=100000",
+        "L=[0]*%(n)s;M=[0]*%(m)s",
+        "L+M",
+        ("n", "m"))
 
-    print
-    print "Test List-5b: extending a length m list"
-    spec_string = "1000<=n<=100000;1000<=m<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("m")
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("L.extend(M)","L=[0]*%(n)s;M=[0]*%(m)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-6: extending a length m list", 
+        "1000<=n<=100000;1000<=m<=100000",
+        "L=[0]*%(n)s;M=[0]*%(m)s",
+        "L.extend(M)",
+        ("m",))
 
-    print
-    print "Test List-6: extracting a slice of length n/2"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 2000
-    for D in input_list:
-        t = timeit.Timer("L[0:%(n)s/2]"%D,"L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-7: extracting a slice of length n/2", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L[0:%(n)s/2]",
+        ("n",))
 
-    print
-    print "Test List-7: copy"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 2000
-    for D in input_list:
-        t = timeit.Timer("L[:]","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-8: copy", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L[:]",
+        ("n",))
 
-    print
-    print "Test List-8: assigning a slice of length n/2"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 2000
-    for D in input_list:
-        t = timeit.Timer("L[0:%(n)s/2]=L[1:1+%(n)s/2]"%D,"L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-8: copy", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L[:]",
+        ("n",))
 
-    print
-    print "Test List-9: Delete first"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("del L[0]","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-9: assigning a slice of length n/2", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L[0:%(n)s/2]=L[1:1+%(n)s/2]",
+        ("n",))
 
-    print
-    print "Test List-10: Reverse"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("L.reverse()","L=[0]*%(n)s"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-10: Delete first", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "del L[0]",
+        ("n",))
 
-    print
-    print "Test List-11: Sort"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n*lg(n)",)
-    run_times = []
-    trials = 200
-    for D in input_list:
-        t = timeit.Timer("L.sort()","import random;L=[random.random() for i in range(%(n)s)]"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test List-11: Reverse", 
+        "1000<=n<=100000",
+        "L=[0]*%(n)s",
+        "L.reverse()",
+        ("n",))
+
+    test("Test List-12: Sort", 
+        "1000<=n<=100000",
+        "import random;L=[random.random() for i in range(%(n)s)]",
+        "L.sort()",
+        ("n*lg(n)",))
 
 def test_dict():
-    print
-    print "Test Dict-1: create an empty dictionary"
-    spec_string = "1<=n<=1"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x = dict()")
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Dict-1: create an empty dictionary", 
+        "1<=n<=1",
+        "",
+        "x = dict()",
+        ("1",),
+        1000)
 
-    print
-    print "Test Dict-2: dictionary lookup"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("1",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("x = d[1]",
-                         "d = dict([(i,i) for i in range(%(n)s)])"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Dict-2: dictionary lookup", 
+        "1000<=n<=100000",
+        "d = dict([(i,i) for i in range(%(n)s)])",
+        "x = d[1]",
+        ("1",),
+        1000)
 
-    print
-    print "Test Dict-3: dictionary copy"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("d.copy()",
-                         "d = dict([(i,i) for i in range(%(n)s)])"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Dict-3: dictionary copy", 
+        "1000<=n<=100000",
+        "d = dict([(i,i) for i in range(%(n)s)])",
+        "d.copy()",
+        ("n",),
+        1000)
 
-    print
-    print "Test Dict-4: dictionary list items"
-    spec_string = "1000<=n<=100000"
-    growth_factor = 2
-    print "Spec_string: ",spec_string, "by factors of", growth_factor
-    var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n*lg(n)",)
-    run_times = []
-    trials = 1000
-    for D in input_list:
-        t = timeit.Timer("d.items()",
-                         "d = dict([(i,i) for i in range(%(n)s)])"%D)
-        run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    test("Test Dict-4: dictionary list items", 
+        "1000<=n<=100000",
+        "d = dict([(i,i) for i in range(%(n)s)])",
+        "d.items()",
+        ("n*lg(n)",),
+        1000)
 
 def test_set():
     test("Test Set-1: create an empty set", 
@@ -630,13 +398,13 @@ def test_set():
 
 def test(name, spec_string, setup, method, features, trials = 200):
     print
-    print name
+    print name + ": " + method
     growth_factor = 2
     print "Spec_string: ",spec_string, "by factors of", growth_factor
     var_list, input_list = make_input_list(spec_string,growth_factor)
     run_times = []
     for D in input_list:
-        t = timeit.Timer(method, setup % D)
+        t = timeit.Timer(method % D, setup % D)
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,features)
 

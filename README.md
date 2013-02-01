@@ -70,7 +70,7 @@ Cost of Python Integer Operations
 </td></tr>
 <tr>
 <td> <b>Division (or Remainder)</b>
-</td><td> <tt>w/x</tt>
+</td><td> <tt>w/x or w%x</tt>
 </td><td> <tt>47 * (n/1000)^2 microseconds</tt>
 </td><td> <tt> n &lt;= 32000 </tt>
 </td><td> 6% rms error
@@ -255,7 +255,7 @@ Cost of Python Dictionary Operations
 </td><td> <tt> n &lt;= 64000 </tt>
 </td><td> 14% rms error
 </td></tr></tbody></table>
-What should the right high-order term be for copy and list items? It seems these should be linear, but the data for both looks somewhat super-linear. We've modelled copy here as linear and list items as n lg(n), but these formular need further work and exploration.
+What should the right high-order term be for copy and list items? It seems these should be linear, but the data for both looks somewhat super-linear. I've modelled copy here as linear and list items as n lg(n), but these formular need further work and exploration.
 
 Cost of Python Set Operations
 ----------------------------------------------

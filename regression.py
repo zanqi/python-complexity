@@ -657,20 +657,39 @@ def test_set():
         run_times.append(t.timeit(trials)*1e6/float(trials))
     fit(var_list,input_list,run_times,f_list)
 
+    test("Test Set-5: union", 
+        "1000<=n<=100000;1000<=m<=100000",
+        "S=set(range(%(n)s));S2=set(range(%(n)s,%(n)s+%(m)s))",
+        "S | S2",
+        "n+m")
+        
+#    print
+#    print "Test Set-5: union"
+#    spec_string = "1000<=n<=100000;1000<=m<=100000"
+#    growth_factor = 2
+#    print "Spec_string: ",spec_string, "by factors of", growth_factor
+#    var_list, input_list = make_input_list(spec_string,growth_factor)
+#    # f_list = ("n","1")
+#    f_list = ("n","m")
+#    run_times = []
+#    trials = 200
+#    for D in input_list:
+#        t = timeit.Timer("S | S2","S=set(range(%(n)s));S2=set(range(%(n)s,%(n)s+%(m)s))"%D)
+#        run_times.append(t.timeit(trials)*1e6/float(trials))
+#    fit(var_list,input_list,run_times,f_list)
+
+def test(name, spec_string, features, method, setup):
     print
-    print "Test Set-5: union"
-    spec_string = "1000<=n<=100000;1000<=m<=100000"
+    print name
     growth_factor = 2
     print "Spec_string: ",spec_string, "by factors of", growth_factor
     var_list, input_list = make_input_list(spec_string,growth_factor)
-    # f_list = ("n","1")
-    f_list = ("n","m")
     run_times = []
     trials = 200
     for D in input_list:
-        t = timeit.Timer("S | S2","S=set(range(%(n)s));S2=set(range(%(n)s,%(n)s+%(m)s))"%D)
+        t = timeit.Timer(method, setup"%D)
         run_times.append(t.timeit(trials)*1e6/float(trials))
-    fit(var_list,input_list,run_times,f_list)
+    fit(var_list,input_list,run_times,features)
 
 def main():
     test_misc()
